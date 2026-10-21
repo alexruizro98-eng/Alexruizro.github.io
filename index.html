@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tu Nombre | Physics Programmer</title>
+  <meta name="description" content="Portafolio de Tu Nombre, programador de física para videojuegos: demos, proyectos, formación y contacto.">
+
+  <!-- Aplica el tema guardado (o el del sistema) antes de pintar la página, para evitar parpadeos -->
+  <script>
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem('theme'); } catch (e) {}
+      if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       COLORES: tema oscuro y tema claro (el visitante puede cambiar)
+       Cambia aquí los colores de tu marca personal.
+       ============================================================ */
+    :root, :root[data-theme="dark"] {
+      --bg: #0e0f13;
+      --bg-alt: #13151b;
+      --card: #171922;
+      --text: #e9eaf0;
+      --muted: #9a9eb0;
+      --line: rgba(255,255,255,.09);
+      --accent: #8b6cff;
+      --accent-2: #2de2c5;
+      --mark: rgba(139,108,255,.38);
+      --btn-bg: #7c5cff;
+      --btn-fg: #ffffff;
+      --btn-hover-bg: #2de2c5;
+      --btn-hover-fg: #0e0f13;
+      --outline: rgba(255,255,255,.28);
+      --header-bg: rgba(14,15,19,.82);
+      --shadow: 0 14px 34px rgba(0,0,0,.4);
+      --ph-a: #2a2548;
+      --ph-b: #1f2230;
+    }
+    :root[data-theme="light"] {
+      --bg: #fbfaf7;
+      --bg-alt: #f2efe8;
+      --card: #ffffff;
+      --text: #16181d;
+      --muted: #5b6070;
+      --line: #e3dfd5;
+      --accent: #5a3bea;
+      --accent-2: #0e9f8a;
+      --mark: rgba(90,59,234,.2);
+      --btn-bg: #1b2540;
+      --btn-fg: #ffffff;
+      --btn-hover-bg: #5a3bea;
+      --btn-hover-fg: #ffffff;
+      --outline: #1b2540;
+      --header-bg: rgba(251,250,247,.86);
+      --shadow: 0 14px 34px rgba(27,37,64,.1);
+      --ph-a: #f7d9cf;
+      --ph-b: #cfd6ee;
+    }
+    :root { --radius: 16px; --max-width: 1080px; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.65; overflow-x: hidden;
+      transition: background .3s, color .3s;
+    }
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; line-height: 1.12; }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    ul { list-style: none; }
+
+    .container { width: min(var(--max-width), 100% - 40px); margin-inline: auto; }
+    section { padding: 100px 0; }
+    .alt { background: var(--bg-alt); }
+
+    .eyebrow { font-size: .78rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; margin-bottom: 14px; }
+    .section-title { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 14px; letter-spacing: -.01em; }
+    .section-sub { color: var(--muted); max-width: 620px; margin-bottom: 52px; font-size: 1.05rem; }
+
+    .btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn {
+      padding: 13px 26px; border-radius: 999px; font-weight: 600; font-size: .94rem; display: inline-block;
+      transition: transform .2s, background .2s, color .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary { background: var(--btn-bg); color: var(--btn-fg); box-shadow: 0 10px 26px rgba(124,92,255,.28); }
+    .btn-primary:hover { background: var(--btn-hover-bg); color: var(--btn-hover-fg); }
+    .btn-ghost { border: 1.5px solid var(--outline); }
+    .btn-ghost:hover { background: var(--text); color: var(--bg); }
+
+    /* ---------- BARRA DE PROGRESO ---------- */
+    .progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; z-index: 100; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+    /* ---------- NAVEGACIÓN ---------- */
+    header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: var(--header-bg); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+    nav { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+    .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.15rem; }
+    .logo span { color: var(--accent-2); }
+    .nav-links { display: flex; align-items: center; gap: 24px; }
+    .nav-links a { font-size: .9rem; color: var(--muted); position: relative; padding: 4px 0; transition: color .2s; }
+    .nav-links a::after {
+      content: ''; position: absolute; left: 0; bottom: -2px; height: 2px; width: 100%;
+      background: var(--accent-2); transform: scaleX(0); transform-origin: left; transition: transform .3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+    .nav-cv { background: var(--btn-bg); color: var(--btn-fg) !important; padding: 8px 18px !important; border-radius: 999px; }
+    .nav-cv::after { display: none; }
+    .nav-cv:hover { background: var(--btn-hover-bg); color: var(--btn-hover-fg) !important; }
+    .icon-btn {
+      background: none; border: 1.5px solid var(--outline); color: var(--text); width: 38px; height: 38px;
+      border-radius: 50%; cursor: pointer; font-size: 1rem; display: grid; place-items: center; transition: background .2s, color .2s, transform .3s;
+    }
+    .icon-btn:hover { background: var(--text); color: var(--bg); transform: rotate(20deg); }
+    .menu-btn { display: none; background: none; border: 1.5px solid var(--outline); color: var(--text); padding: 6px 14px; border-radius: 999px; font-size: .9rem; cursor: pointer; }
+
+    /* ---------- INTRO + SIMULACIÓN ---------- */
+    .hero { padding: 150px 0 100px; position: relative; overflow: hidden; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .28; z-index: 0; animation: float 14s ease-in-out infinite alternate; }
+    .blob.b1 { width: 420px; height: 420px; background: var(--accent); top: -100px; right: -80px; }
+    .blob.b2 { width: 320px; height: 320px; background: var(--accent-2); bottom: -120px; left: -80px; opacity: .16; animation-delay: -6s; }
+    @keyframes float { to { transform: translate(40px, 30px) scale(1.12); } }
+
+    .hero .container { position: relative; z-index: 1; display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; align-items: center; }
+    .hero h1 { font-size: clamp(3rem, 8.5vw, 5.8rem); letter-spacing: -.03em; margin-bottom: 18px; }
+    .role-line { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 500; margin-bottom: 16px; }
+    .mark {
+      background: linear-gradient(var(--mark), var(--mark)) no-repeat left 90% / 0% 40%;
+      animation: mark 1s .9s cubic-bezier(.2,.7,.2,1) forwards; padding: 0 4px; margin: 0 -4px;
+    }
+    @keyframes mark { to { background-size: 100% 40%; } }
+    .hero .lead { color: var(--muted); font-size: 1.1rem; max-width: 560px; margin-bottom: 12px; }
+    .hero .now { color: var(--muted); font-size: .98rem; }
+    .hero .now strong { color: var(--text); }
+
+    .sim {
+      position: relative; height: 400px; border-radius: var(--radius); overflow: hidden;
+      background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow);
+      cursor: crosshair;
+    }
+    .sim canvas { width: 100%; height: 100%; display: block; touch-action: pan-y; }
+    .sim-label {
+      position: absolute; left: 14px; bottom: 12px; font-size: .78rem; color: var(--muted);
+      background: var(--header-bg); padding: 3px 12px; border-radius: 999px; pointer-events: none;
+    }
+    .hero .rise { opacity: 0; transform: translateY(30px); animation: rise .9s cubic-bezier(.2,.7,.2,1) forwards; }
+    .hero .container > div:nth-child(1) > .rise:nth-child(1) { animation-delay: .05s; }
+    .hero .container > div:nth-child(1) > .rise:nth-child(2) { animation-delay: .2s; }
+    .hero .container > div:nth-child(1) > .rise:nth-child(3) { animation-delay: .35s; }
+    .hero .container > div:nth-child(1) > .rise:nth-child(4) { animation-delay: .5s; }
+    .hero .container > div:nth-child(1) > .rise:nth-child(5) { animation-delay: .65s; }
+    .hero .container > .rise { animation-delay: .4s; }
+    @keyframes rise { to { opacity: 1; transform: none; } }
+
+    /* ---------- HOLA (bloques alternados) ---------- */
+    .block { display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; align-items: center; padding: 44px 0; }
+    .block:nth-of-type(even) .block-img { order: 2; }
+    .ph { background: linear-gradient(135deg, var(--ph-a), var(--ph-b)); color: var(--muted); display: grid; place-items: center; font-size: .9rem; }
+    .block-img { aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; }
+    .block-img.portrait { aspect-ratio: 4 / 5; max-width: 340px; border-radius: 180px 180px var(--radius) var(--radius); }
+    .block-img img { width: 100%; height: 100%; object-fit: cover; }
+    .block h3 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 14px; }
+    .block p { color: var(--muted); margin-bottom: 14px; }
+
+    .skill-group { margin-bottom: 18px; }
+    .skill-group h4 { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 9px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-size: .85rem; padding: 6px 13px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); transition: border-color .2s, transform .2s; }
+    .chip:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+    .want-list li { position: relative; padding: 9px 0 9px 22px; border-bottom: 1px solid var(--line); font-size: .96rem; }
+    .want-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent-2); }
+
+    /* ---------- PROYECTOS DESTACADOS ---------- */
+    .feature { margin-bottom: 38px; border-radius: var(--radius); overflow: hidden; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+    .banner { position: relative; height: clamp(260px, 38vw, 400px); overflow: hidden; color: #fff; }
+    .banner-bg { position: absolute; inset: -10% 0; will-change: transform; background: linear-gradient(135deg, #1b2540, #4b3bb0); }
+    .feature:nth-of-type(2n) .banner-bg { background: linear-gradient(135deg, #12423c, #2aa58f); }
+    .feature:nth-of-type(3n) .banner-bg { background: linear-gradient(135deg, #3a1f55, #b34a8a); }
+    .banner-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,10,18,.8), rgba(8,10,18,.05) 65%); pointer-events: none; }
+    .banner.playing::after { display: none; }
+    .banner iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 3; }
+    .banner-text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 28px clamp(20px, 4vw, 40px); }
+    .badge { display: inline-block; font-size: .78rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.18); backdrop-filter: blur(6px); margin-bottom: 12px; }
+    .banner-text h3 { font-size: clamp(1.7rem, 4vw, 2.7rem); margin-bottom: 6px; }
+    .banner-text .role { font-size: .98rem; opacity: .92; }
+    .video-btn {
+      position: absolute; top: 24px; right: 24px; z-index: 4; border: 0; cursor: pointer;
+      display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,.95); color: #16181d;
+      padding: 8px 18px 8px 8px; border-radius: 999px; font-family: inherit; font-weight: 600; font-size: .88rem;
+      transition: transform .2s;
+    }
+    .video-btn:hover { transform: scale(1.06); }
+    .video-btn .play {
+      width: 36px; height: 36px; border-radius: 50%; background: var(--btn-bg, #7c5cff); color: #fff; display: grid; place-items: center; font-size: .85rem; padding-left: 2px;
+      animation: pulse 2.2s infinite;
+    }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(124,92,255,.55); } 70% { box-shadow: 0 0 0 14px rgba(124,92,255,0); } 100% { box-shadow: 0 0 0 0 rgba(124,92,255,0); } }
+
+    .feature-body { padding: 26px clamp(20px, 4vw, 40px) 30px; }
+    .feature-top { display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px; align-items: start; }
+    .desc { color: var(--muted); }
+    .meta { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; font-size: .9rem; }
+    .meta dt { color: var(--muted); }
+    .meta dd { font-weight: 500; }
+    .award { display: inline-block; font-size: .84rem; padding: 6px 14px; border-radius: 999px; background: rgba(45,226,197,.1); color: var(--accent-2); border: 1px solid rgba(45,226,197,.35); margin-top: 18px; }
+    .feature-links { display: flex; gap: 20px; flex-wrap: wrap; padding-top: 22px; font-weight: 600; font-size: .92rem; }
+    .feature-links a { color: var(--accent); transition: color .2s; }
+    .feature-links a:hover { color: var(--accent-2); }
+
+    details summary {
+      cursor: pointer; list-style: none; display: inline-flex; align-items: center; gap: 10px;
+      font-weight: 600; font-size: .94rem; margin-top: 22px; padding: 10px 20px;
+      border: 1.5px solid var(--outline); border-radius: 999px; transition: background .2s, color .2s;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details summary:hover { background: var(--text); color: var(--bg); }
+    details summary::after { content: '+'; font-size: 1.2rem; line-height: 1; transition: transform .3s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 28px; margin-top: 26px; animation: fade .5s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(-8px); } }
+    .detail-grid h4 { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); margin-bottom: 10px; }
+    .detail-grid li { position: relative; padding-left: 18px; margin-bottom: 7px; font-size: .93rem; color: var(--muted); }
+    .detail-grid li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+    /* ---------- FORMACIÓN / EXPERIENCIA (LÍNEA DE TIEMPO) ---------- */
+    .timeline { position: relative; padding-left: 40px; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 0; bottom: 0; width: 2px; background: var(--line); }
+    .tl-fill { position: absolute; left: 7px; top: 0; width: 2px; height: 0; background: linear-gradient(var(--accent), var(--accent-2)); }
+    .tl-item { position: relative; padding-bottom: 54px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot { position: absolute; left: -40px; top: 6px; width: 16px; height: 16px; border-radius: 50%; background: var(--bg-alt); border: 3px solid var(--accent-2); }
+    .tl-item h3 { font-size: 1.5rem; margin-bottom: 4px; }
+    .tl-role { color: var(--muted); font-size: .95rem; margin-bottom: 14px; }
+    .tl-role b { color: var(--text); }
+    .tl-item p { color: var(--muted); margin-bottom: 14px; max-width: 720px; }
+    .tl-label { font-size: .74rem !important; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-2) !important; font-weight: 600; margin: 18px 0 8px !important; }
+    .tl-titles li { padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .93rem; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; max-width: 720px; }
+    .tl-titles li span { color: var(--muted); font-size: .84rem; }
+    .tl-list li { position: relative; padding-left: 18px; margin-bottom: 6px; font-size: .93rem; color: var(--muted); max-width: 720px; }
+    .tl-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+    /* ---------- COMUNIDAD Y PUBLICACIONES ---------- */
+    .two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 44px; }
+    .two-col h3 { font-size: 1.4rem; margin-bottom: 18px; }
+    .row-link { display: block; padding: 18px 20px; margin-bottom: 12px; border: 1px solid var(--line); background: var(--card); border-radius: 12px; transition: transform .25s, border-color .25s, box-shadow .25s; }
+    a.row-link:hover { transform: translateX(8px); border-color: var(--accent); box-shadow: var(--shadow); }
+    .row-link b { display: block; font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; }
+    .row-link small { color: var(--accent-2); font-weight: 600; font-size: .8rem; }
+    .row-link p { color: var(--muted); font-size: .9rem; margin-top: 6px; }
+
+    /* ---------- DEMOS ---------- */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 26px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; transition: transform .3s, box-shadow .3s, border-color .3s; }
+    .card:hover { transform: translateY(-8px); box-shadow: var(--shadow); border-color: var(--accent); }
+    .thumb { aspect-ratio: 16 / 10; overflow: hidden; }
+    .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
+    .card:hover .thumb img { transform: scale(1.07); }
+    .card-body { padding: 22px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .card h3 { font-size: 1.25rem; }
+    .kind { font-size: .8rem; font-weight: 600; color: var(--accent-2); }
+    .card p { color: var(--muted); font-size: .92rem; }
+    .card .feature-links { margin-top: auto; padding-top: 12px; }
+
+    /* ---------- CONTACTO ---------- */
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 22px; margin-top: 10px; }
+    .contact-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; transition: transform .25s, border-color .25s; }
+    a.contact-card:hover { transform: translateY(-6px); border-color: var(--accent); }
+    .contact-card small { display: block; color: var(--accent-2); font-weight: 600; letter-spacing: .12em; text-transform: uppercase; font-size: .72rem; margin-bottom: 8px; }
+    .contact-card b { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; word-break: break-word; }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0; text-align: center; color: var(--muted); font-size: .88rem; }
+
+    /* ---------- APARICIÓN AL HACER SCROLL ---------- */
+    .reveal { opacity: 0; transform: translateY(34px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .grid .reveal:nth-child(2) { transition-delay: .12s; }
+    .grid .reveal:nth-child(3) { transition-delay: .24s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal, .hero .rise { opacity: 1; transform: none; }
+      .mark { background-size: 100% 40%; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ---------- MÓVIL / TABLET ---------- */
+    @media (max-width: 900px) {
+      section { padding: 70px 0; }
+      .hero { padding: 110px 0 70px; }
+      .hero .container { grid-template-columns: 1fr; }
+      .sim { height: 320px; }
+      .block { grid-template-columns: 1fr; gap: 26px; padding: 30px 0; }
+      .block:nth-of-type(even) .block-img { order: 0; }
+      .feature-top { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .menu-btn { display: block; }
+      .nav-right { display: flex; align-items: center; gap: 10px; }
+      .nav-links {
+        display: none; position: absolute; top: 66px; left: 0; right: 0; flex-direction: column; align-items: stretch; gap: 0;
+        background: var(--bg); border-bottom: 1px solid var(--line);
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 16px 20px; }
+      .nav-links a::after { display: none; }
+      .nav-cv { border-radius: 0; }
+    }
+    @media (min-width: 901px) { .nav-right { display: flex; align-items: center; gap: 24px; } }
+  </style>
+</head>
+
+<body>
+  <div class="progress" id="progress"></div>
+
+  <!-- ===================== NAVEGACIÓN ===================== -->
+  <header>
+    <nav class="container">
+      <a href="#intro" class="logo">Tu<span>Nombre</span></a>
+      <div class="nav-right">
+        <div class="nav-links" id="navLinks">
+          <a href="#hola">Hola</a>
+          <a href="#proyectos">Proyectos</a>
+          <a href="#formacion">Formación</a>
+          <a href="#comunidad">Comunidad</a>
+          <a href="#demos">Demos</a>
+          <a href="#contacto">Contacto</a>
+          <!-- Sube tu CV al repositorio con el nombre cv.pdf -->
+          <a href="cv.pdf" class="nav-cv" target="_blank" rel="noopener">CV</a>
+        </div>
+        <button class="icon-btn" id="themeBtn" aria-label="Cambiar entre tema claro y oscuro">☾</button>
+        <button class="menu-btn" id="menuBtn" aria-label="Abrir menú">Menú</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===================== INTRO ===================== -->
+    <section class="hero" id="intro">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="container">
+        <div>
+          <h1 class="rise">Tu Nombre</h1>
+          <p class="role-line rise"><span class="mark">Physics Programmer</span></p>
+          <p class="lead rise">Programo física para videojuegos: colisiones, cuerpos rígidos, personajes y sistemas que se sienten bien al jugarlos. Estoy buscando mi primer rol en la industria.</p>
+          <p class="now rise">Actualmente: <strong>Estudiante de [tu carrera] / Buscando mi primer puesto</strong></p>
+          <div class="btns rise">
+            <a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
+            <a href="cv.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Ver CV</a>
+            <a href="#contacto" class="btn btn-ghost">Contacto</a>
+          </div>
+        </div>
+
+        <!-- Simulación de física en vivo: la muestra más directa de lo que haces.
+             Más adelante puedes cambiarla por una demo tuya (un iframe de tu juego, un GIF, etc.) -->
+        <div class="sim rise">
+          <canvas id="physCanvas" aria-label="Simulación de física con pelotas que rebotan. Haz clic para soltar más."></canvas>
+          <span class="sim-label">Haz clic o toca para soltar pelotas</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== HOLA ===================== -->
+    <section id="hola" class="alt">
+      <div class="container">
+        <p class="eyebrow reveal">Bienvenido</p>
+        <h2 class="section-title reveal">¡Hola!</h2>
+        <p class="section-sub reveal">Soy [tu perfil en una frase: por ejemplo, "un programador curioso al que le fascina hacer que los objetos se muevan de forma creíble"].</p>
+
+        <div class="block reveal">
+          <div class="block-img portrait ph">
+            <!-- <img src="img/foto.jpg" alt="Foto de Tu Nombre"> -->
+            Tu foto
+          </div>
+          <div>
+            <h3>Por qué me apasiona la física en juegos</h3>
+            <p>Cuenta qué juego te hizo notar la física (una cuerda, un vehículo, una destrucción, un ragdoll) y qué te motivó a aprender cómo funciona por dentro.</p>
+            <p>Menciona tu formación, qué has construido hasta ahora y qué te gustaría seguir aprendiendo.</p>
+          </div>
+        </div>
+
+        <div class="block reveal">
+          <div class="block-img ph">
+            <!-- <img src="img/bloque2.jpg" alt=""> -->
+            Imagen o GIF
+          </div>
+          <div>
+            <h3>Lo que sé hacer</h3>
+            <p>Esto es lo que manejo hoy. Deja solo lo que realmente puedas defender en una entrevista.</p>
+            <div class="skill-group">
+              <h4>Física y simulación</h4>
+              <div class="chips">
+                <span class="chip">Cuerpos rígidos</span>
+                <span class="chip">Detección de colisiones</span>
+                <span class="chip">Integración numérica</span>
+                <span class="chip">Restricciones</span>
+                <span class="chip">Raycasts y queries</span>
+                <span class="chip">Controladores de personaje</span>
+              </div>
+            </div>
+            <div class="skill-group">
+              <h4>Lenguajes</h4>
+              <div class="chips">
+                <span class="chip">C++</span>
+                <span class="chip">C#</span>
+                <span class="chip">Python</span>
+              </div>
+            </div>
+            <div class="skill-group">
+              <h4>Motores y librerías</h4>
+              <div class="chips">
+                <span class="chip">Unity (PhysX)</span>
+                <span class="chip">Unreal Engine (Chaos)</span>
+                <span class="chip">Godot</span>
+                <span class="chip">Box2D</span>
+                <span class="chip">Bullet</span>
+              </div>
+            </div>
+            <div class="skill-group">
+              <h4>Matemáticas y herramientas</h4>
+              <div class="chips">
+                <span class="chip">Álgebra lineal</span>
+                <span class="chip">Cuaterniones</span>
+                <span class="chip">Git / GitHub</span>
+                <span class="chip">Profiling</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="block reveal">
+          <div class="block-img ph">
+            <!-- <img src="img/bloque3.jpg" alt=""> -->
+            Imagen
+          </div>
+          <div>
+            <h3>Lo que busco ahora</h3>
+            <ul class="want-list">
+              <li>Puesto junior o prácticas como Physics, Gameplay o Engine Programmer.</li>
+              <li>Un equipo donde pueda aprender de ingenieros con experiencia.</li>
+              <li>Proyectos donde la física sea parte central de la experiencia.</li>
+            </ul>
+            <div class="btns">
+              <a href="mailto:tucorreo@ejemplo.com" class="btn btn-primary">Escríbeme</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PROYECTOS DESTACADOS ===================== -->
+    <section id="proyectos">
+      <div class="container">
+        <p class="eyebrow reveal">Lo mejor de mi trabajo</p>
+        <h2 class="section-title reveal">Proyectos destacados</h2>
+        <p class="section-sub reveal">Demos y juegos donde la física es la protagonista. Abre cada uno para ver exactamente qué hice y qué problemas resolví.</p>
+
+        <!-- ============ PROYECTO 1 ============
+             IDEA: un motor de física 2D hecho desde cero (cuerpos, colisiones, impulsos).
+             Para agregar otro, copia todo el bloque <article class="feature"> ... </article>.
+             VIDEO: pon el ID de YouTube en data-yt (lo que va después de "v=" en el enlace).
+             IMAGEN DE PORTADA: reemplaza <div class="banner-bg parallax"></div> por:
+             <div class="banner-bg parallax"><img src="img/proyecto1.jpg" alt="Portada de Nombre del Proyecto"></div> -->
+        <article class="feature reveal">
+          <div class="banner">
+            <div class="banner-bg parallax"></div>
+            <button class="video-btn" data-yt="" aria-label="Reproducir video de la demo"><span class="play">▶</span>Ver demo</button>
+            <div class="banner-text">
+              <span class="badge">C++ · Motor de física 2D propio</span>
+              <h3>Motor de física 2D desde cero</h3>
+              <p class="role">Proyecto personal · Programación completa</p>
+            </div>
+          </div>
+          <div class="feature-body">
+            <div class="feature-top">
+              <div>
+                <p class="desc">Explica en 2 o 3 líneas qué construiste, para qué sirve y qué lo hace interesante (por ejemplo: "implementé colisiones entre polígonos con SAT y resolución por impulsos, a 60 FPS con 500 cuerpos").</p>
+                <span class="award">★ Opcional: dato medible o reconocimiento</span>
+              </div>
+              <dl class="meta">
+                <dt>Lenguaje</dt><dd>C++</dd>
+                <dt>Librerías</dt><dd>SDL2, ImGui</dd>
+                <dt>Duración</dt><dd>2 meses</dd>
+                <dt>Equipo</dt><dd>Individual</dd>
+                <dt>Plataforma</dt><dd>PC</dd>
+              </dl>
+            </div>
+            <details>
+              <summary>Ver lo que hice</summary>
+              <div class="detail-grid">
+                <div>
+                  <h4>Simulación</h4>
+                  <ul>
+                    <li>Integración de movimiento (Euler semi-implícito).</li>
+                    <li>Detección de colisiones: fase amplia y fase estrecha.</li>
+                    <li>Resolución de colisiones con impulsos y fricción.</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Rendimiento</h4>
+                  <ul>
+                    <li>Estructura espacial (cuadrícula o árbol) para reducir comparaciones.</li>
+                    <li>Mide antes y después: "pasé de X a Y ms por frame".</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Herramientas</h4>
+                  <ul>
+                    <li>Visualización de depuración (contactos, cajas, normales).</li>
+                    <li>Interfaz para ajustar parámetros en tiempo real.</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+            <div class="feature-links">
+              <a href="#" target="_blank" rel="noopener">Código en GitHub ↗</a>
+              <a href="#" target="_blank" rel="noopener">Demo en el navegador ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PROYECTO 2 ============
+             IDEA: un controlador de personaje con física (rampas, plataformas móviles, saltos). -->
+        <article class="feature reveal">
+          <div class="banner">
+            <div class="banner-bg parallax"></div>
+            <button class="video-btn" data-yt="" aria-label="Reproducir video de la demo"><span class="play">▶</span>Ver demo</button>
+            <div class="banner-text">
+              <span class="badge">Unity / Unreal · Controlador de personaje</span>
+              <h3>Controlador de personaje con física</h3>
+              <p class="role">Proyecto personal · Jugabilidad y física</p>
+            </div>
+          </div>
+          <div class="feature-body">
+            <div class="feature-top">
+              <div>
+                <p class="desc">Describe el problema (por ejemplo: "que el personaje suba rampas, se mueva con plataformas y no atraviese paredes") y cómo lo resolviste.</p>
+              </div>
+              <dl class="meta">
+                <dt>Lenguaje</dt><dd>C#</dd>
+                <dt>Motor</dt><dd>Unity</dd>
+                <dt>Duración</dt><dd>3 semanas</dd>
+                <dt>Equipo</dt><dd>Individual</dd>
+                <dt>Plataforma</dt><dd>PC</dd>
+              </dl>
+            </div>
+            <details>
+              <summary>Ver lo que hice</summary>
+              <div class="detail-grid">
+                <div>
+                  <h4>Movimiento</h4>
+                  <ul>
+                    <li>Movimiento cinemático con detección de suelo y pendientes.</li>
+                    <li>Salto con coyote time y buffer de entrada.</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Interacción con el mundo</h4>
+                  <ul>
+                    <li>Plataformas móviles y objetos empujables.</li>
+                    <li>Casos límite que depuraste (esquinas, escaleras, velocidades altas).</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+            <div class="feature-links">
+              <a href="#" target="_blank" rel="noopener">Jugar ↗</a>
+              <a href="#" target="_blank" rel="noopener">Código ↗</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- ============ PROYECTO 3 ============
+             IDEA: un juego de game jam o de equipo donde tu parte fue la física. -->
+        <article class="feature reveal">
+          <div class="banner">
+            <div class="banner-bg parallax"></div>
+            <button class="video-btn" data-yt="" aria-label="Reproducir tráiler"><span class="play">▶</span>Ver tráiler</button>
+            <div class="banner-text">
+              <span class="badge">Godot / Unity · Game jam de 48 horas</span>
+              <h3>Nombre del juego de equipo</h3>
+              <p class="role">Programador de física · Equipo de 4 · PC / Navegador</p>
+            </div>
+          </div>
+          <div class="feature-body">
+            <div class="feature-top">
+              <div>
+                <p class="desc">Explica qué hacía el juego y cuál fue tu responsabilidad dentro del equipo.</p>
+              </div>
+              <dl class="meta">
+                <dt>Motor</dt><dd>Godot</dd>
+                <dt>Duración</dt><dd>48 horas</dd>
+                <dt>Equipo</dt><dd>4 personas</dd>
+                <dt>Plataforma</dt><dd>PC / Navegador</dd>
+              </dl>
+            </div>
+            <details>
+              <summary>Ver lo que hice</summary>
+              <div class="detail-grid">
+                <div>
+                  <h4>Mi contribución</h4>
+                  <ul>
+                    <li>La mecánica de física central del juego.</li>
+                    <li>Qué aprendiste trabajando bajo tiempo limitado.</li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+            <div class="feature-links">
+              <a href="#" target="_blank" rel="noopener">Jugar ↗</a>
+              <a href="#" target="_blank" rel="noopener">Página de la jam ↗</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===================== FORMACIÓN Y EXPERIENCIA ===================== -->
+    <section id="formacion" class="alt">
+      <div class="container">
+        <p class="eyebrow reveal">Currículum</p>
+        <h2 class="section-title reveal">Formación y experiencia</h2>
+        <p class="section-sub reveal">Un resumen de mi camino. Si estás empezando, aquí cuentan tus estudios, cursos, prácticas y game jams.</p>
+
+        <div class="timeline" id="timeline">
+          <div class="tl-fill" id="tlFill"></div>
+
+          <div class="tl-item reveal">
+            <span class="tl-dot"></span>
+            <h3>Universidad o escuela</h3>
+            <p class="tl-role"><b>Licenciatura / Ingeniería en ...</b> · 2021 – 2025</p>
+            <p>Menciona materias relevantes (física, álgebra lineal, estructuras de datos, gráficos), tu enfoque y proyectos finales relacionados con videojuegos.</p>
+            <p class="tl-label">Destacados</p>
+            <ul class="tl-list">
+              <li>Proyecto de tesis o terminal relacionado con simulación o juegos.</li>
+              <li>Promedio, becas o reconocimientos, si ayudan.</li>
+            </ul>
+          </div>
+
+          <div class="tl-item reveal">
+            <span class="tl-dot"></span>
+            <h3>Prácticas, voluntariado o game jams</h3>
+            <p class="tl-role"><b>Tu rol</b> · 2024</p>
+            <p>Cualquier experiencia en equipo cuenta: prácticas, proyectos para clientes, colaboraciones o jams.</p>
+            <p class="tl-label">Títulos</p>
+            <ul class="tl-titles">
+              <li>Nombre del juego o proyecto <span>PC — 2024</span></li>
+            </ul>
+            <p class="tl-label">Responsabilidades</p>
+            <ul class="tl-list">
+              <li>Una responsabilidad concreta con un resultado claro.</li>
+              <li>Cómo trabajaste con artistas, diseñadores u otros programadores.</li>
+            </ul>
+          </div>
+
+          <div class="tl-item reveal">
+            <span class="tl-dot"></span>
+            <h3>Cursos y certificaciones</h3>
+            <p class="tl-role"><b>Plataforma o institución</b> · 2023</p>
+            <p>Cursos de C++, matemáticas para videojuegos, física de juegos u otros que respalden lo que sabes.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COMUNIDAD ===================== -->
+    <section id="comunidad">
+      <div class="container">
+        <p class="eyebrow reveal">Más allá del código</p>
+        <h2 class="section-title reveal">Comunidad y publicaciones</h2>
+        <p class="section-sub reveal">Escribir sobre lo que aprendes te distingue mucho cuando empiezas. Un artículo explicando cómo funciona algo que hiciste vale más que una lista de herramientas. Si todavía no tienes nada aquí, borra la sección y vuelve cuando tengas algo.</p>
+
+        <div class="two-col">
+          <div>
+            <h3 class="reveal">Artículos y charlas</h3>
+            <a href="#" class="row-link reveal" target="_blank" rel="noopener">
+              <small>Tu blog o Medium</small>
+              <b>Título de tu artículo</b>
+              <p>Ejemplo: "Cómo implementé colisiones entre círculos y polígonos paso a paso".</p>
+            </a>
+            <a href="#" class="row-link reveal" target="_blank" rel="noopener">
+              <small>Evento o comunidad</small>
+              <b>Charla o presentación</b>
+              <p>Una línea sobre de qué trató y dónde la diste.</p>
+            </a>
+          </div>
+          <div>
+            <h3 class="reveal">Game jams y reconocimientos</h3>
+            <div class="row-link reveal">
+              <small>Ganador · 2025</small>
+              <b>Nombre del premio o jam</b>
+            </div>
+            <div class="row-link reveal">
+              <small>Participante · 2024</small>
+              <b>Global Game Jam u otra</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== DEMOS Y EXPERIMENTOS ===================== -->
+    <section id="demos" class="alt">
+      <div class="container">
+        <p class="eyebrow reveal">Laboratorio</p>
+        <h2 class="section-title reveal">Demos y experimentos</h2>
+        <p class="section-sub reveal">Pruebas cortas donde exploré una idea de física. Un GIF de 5 a 10 segundos por demo es suficiente.</p>
+
+        <div class="grid">
+          <article class="card reveal">
+            <div class="thumb ph"><!-- <img src="img/demo1.gif" alt="Demo de cuerdas"> -->Imagen o GIF</div>
+            <div class="card-body">
+              <span class="kind">Cuerdas y restricciones · Unity</span>
+              <h3>Simulación de cuerdas</h3>
+              <p>Una línea que explique qué se ve y qué técnica usaste (por ejemplo, Verlet).</p>
+              <div class="feature-links"><a href="#" target="_blank" rel="noopener">Ver demo ↗</a><a href="#" target="_blank" rel="noopener">Código ↗</a></div>
+            </div>
+          </article>
+          <article class="card reveal">
+            <div class="thumb ph">Imagen o GIF</div>
+            <div class="card-body">
+              <span class="kind">Ragdoll · Godot</span>
+              <h3>Ragdoll con articulaciones</h3>
+              <p>Explica brevemente el reto y cómo lo resolviste.</p>
+              <div class="feature-links"><a href="#" target="_blank" rel="noopener">Ver demo ↗</a><a href="#" target="_blank" rel="noopener">Código ↗</a></div>
+            </div>
+          </article>
+          <article class="card reveal">
+            <div class="thumb ph">Imagen o GIF</div>
+            <div class="card-body">
+              <span class="kind">Vehículo · Unreal Engine</span>
+              <h3>Vehículo con suspensión</h3>
+              <p>Si usaste un sistema ya existente, aclara qué parte modificaste o programaste tú.</p>
+              <div class="feature-links"><a href="#" target="_blank" rel="noopener">Ver demo ↗</a></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACTO ===================== -->
+    <section id="contacto">
+      <div class="container">
+        <p class="eyebrow reveal">¿Hablamos?</p>
+        <h2 class="section-title reveal">Contáctame</h2>
+        <p class="section-sub reveal">Escríbeme por correo o LinkedIn. Con gusto platico sobre puestos, prácticas o colaboraciones.</p>
+        <div class="contact-grid">
+          <a class="contact-card reveal" href="mailto:tucorreo@ejemplo.com"><small>Correo</small><b>tucorreo@ejemplo.com</b></a>
+          <a class="contact-card reveal" href="https://www.linkedin.com/in/tu-usuario" target="_blank" rel="noopener"><small>LinkedIn</small><b>linkedin.com/in/tu-usuario</b></a>
+          <a class="contact-card reveal" href="https://github.com/tu-usuario" target="_blank" rel="noopener"><small>GitHub</small><b>github.com/tu-usuario</b></a>
+          <div class="contact-card reveal"><small>Ubicación</small><b>Ciudad, País</b></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Tu Nombre. Todos los derechos reservados.</div>
+  </footer>
+
+  <script>
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const root = document.documentElement;
+
+    /* ---------- Tema claro / oscuro ---------- */
+    const themeBtn = document.getElementById('themeBtn');
+    function syncThemeIcon() { themeBtn.textContent = root.getAttribute('data-theme') === 'dark' ? '☾' : '☀'; }
+    syncThemeIcon();
+    themeBtn.addEventListener('click', () => {
+      const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      syncThemeIcon();
+      refreshColors();
+    });
+
+    /* ---------- Menú en móvil ---------- */
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* ---------- Aparición al hacer scroll ---------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); revealObserver.unobserve(entry.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* ---------- Resaltar sección activa en el menú ---------- */
+    const links = [...navLinks.querySelectorAll('a[href^="#"]')];
+    const sections = links.map(l => document.querySelector(l.getAttribute('href'))).filter(Boolean);
+    const navObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + entry.target.id));
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(s => navObserver.observe(s));
+
+    /* ---------- Barra de progreso, línea de tiempo y paralaje ---------- */
+    const progress = document.getElementById('progress');
+    const tl = document.getElementById('timeline');
+    const tlFill = document.getElementById('tlFill');
+    const parallax = [...document.querySelectorAll('.parallax')];
+
+    function onScroll() {
+      const vh = window.innerHeight;
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
+
+      if (tl) {
+        const r = tl.getBoundingClientRect();
+        const p = Math.min(Math.max((vh * 0.6 - r.top) / r.height, 0), 1);
+        tlFill.style.height = (reduceMotion ? 100 : p * 100) + '%';
+      }
+      if (!reduceMotion) {
+        parallax.forEach(el => {
+          if (!el.isConnected) return;
+          const r = el.parentElement.getBoundingClientRect();
+          if (r.bottom < 0 || r.top > vh) return;
+          el.style.transform = 'translateY(' + ((r.top + r.height / 2 - vh / 2) * -0.1).toFixed(1) + 'px)';
+        });
+      }
+    }
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(() => { onScroll(); ticking = false; }); ticking = true; }
+    }, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+
+    /* ---------- Videos de YouTube (se cargan solo al hacer clic) ---------- */
+    document.querySelectorAll('.video-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.yt;
+        if (!id) { alert('Agrega el ID de tu video de YouTube en data-yt="" de este proyecto.'); return; }
+        const banner = btn.closest('.banner');
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+        iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.title = 'Video del proyecto';
+        banner.classList.add('playing');
+        banner.replaceChildren(iframe);
+      });
+    });
+
+    /* ============================================================
+       SIMULACIÓN DE FÍSICA EN LA PORTADA
+       Pelotas con gravedad, rebotes en las paredes y colisiones
+       entre sí. El cursor las empuja y un clic suelta más.
+       ============================================================ */
+    const canvas = document.getElementById('physCanvas');
+    const ctx = canvas.getContext('2d');
+    const GRAVITY = 900;        // px/s²
+    const RESTITUTION = 0.8;    // qué tanto rebotan (0 a 1)
+    const MAX_BALLS = 60;
+    const SUBSTEPS = 3;
+    let W = 0, H = 0, dpr = 1;
+    let balls = [];
+    let colors = ['#8b6cff', '#2de2c5', '#9a9eb0'];
+    let lineColor = 'rgba(255,255,255,.12)';
+    let pointer = { x: -999, y: -999, active: false };
+    let running = false;
+
+    function refreshColors() {
+      const s = getComputedStyle(root);
+      colors = [s.getPropertyValue('--accent').trim(), s.getPropertyValue('--accent-2').trim(), s.getPropertyValue('--muted').trim()];
+      lineColor = s.getPropertyValue('--line').trim();
+      if (!running) draw();
+    }
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      balls.forEach(b => { b.x = Math.min(Math.max(b.x, b.r), W - b.r); b.y = Math.min(b.y, H - b.r); });
+      if (!running) draw();
+    }
+
+    function addBall(x, y) {
+      const r = 10 + Math.random() * 14;
+      balls.push({
+        x: x, y: y, r: r, m: r * r,
+        vx: (Math.random() - 0.5) * 360, vy: -Math.random() * 200,
+        c: colors[Math.floor(Math.random() * 2)]
+      });
+      if (balls.length > MAX_BALLS) balls.shift();
+    }
+
+    function step(dt) {
+      for (const b of balls) {
+        b.vy += GRAVITY * dt;
+        b.x += b.vx * dt; b.y += b.vy * dt;
+
+        // Pared izquierda / derecha / suelo / techo
+        if (b.x < b.r)      { b.x = b.r;      b.vx = -b.vx * RESTITUTION; }
+        if (b.x > W - b.r)  { b.x = W - b.r;  b.vx = -b.vx * RESTITUTION; }
+        if (b.y > H - b.r)  { b.y = H - b.r;  b.vy = -b.vy * RESTITUTION; b.vx *= 0.995; if (Math.abs(b.vy) < 25) b.vy = 0; }
+        if (b.y < b.r)      { b.y = b.r;      b.vy = -b.vy * RESTITUTION; }
+
+        // El cursor empuja las pelotas cercanas
+        if (pointer.active) {
+          const dx = b.x - pointer.x, dy = b.y - pointer.y;
+          const d = Math.hypot(dx, dy), range = 90;
+          if (d < range && d > 0.001) {
+            const f = (1 - d / range) * 1400 * dt;
+            b.vx += (dx / d) * f; b.vy += (dy / d) * f;
+          }
+        }
+      }
+
+      // Colisiones entre pelotas (impulso elástico + corrección de posición)
+      for (let i = 0; i < balls.length; i++) {
+        for (let j = i + 1; j < balls.length; j++) {
+          const a = balls[i], b = balls[j];
+          const dx = b.x - a.x, dy = b.y - a.y;
+          const dist = Math.hypot(dx, dy), minD = a.r + b.r;
+          if (dist >= minD || dist === 0) continue;
+          const nx = dx / dist, ny = dy / dist;
+          const overlap = minD - dist, total = a.m + b.m;
+          a.x -= nx * overlap * (b.m / total); a.y -= ny * overlap * (b.m / total);
+          b.x += nx * overlap * (a.m / total); b.y += ny * overlap * (a.m / total);
+          const vn = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+          if (vn < 0) {
+            const j2 = -(1 + RESTITUTION) * vn / (1 / a.m + 1 / b.m);
+            a.vx -= (j2 / a.m) * nx; a.vy -= (j2 / a.m) * ny;
+            b.vx += (j2 / b.m) * nx; b.vy += (j2 / b.m) * ny;
+          }
+        }
+      }
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.strokeStyle = lineColor; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, H - 0.5); ctx.lineTo(W, H - 0.5); ctx.stroke();
+      for (const b of balls) {
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.globalAlpha = 0.85; ctx.fillStyle = b.c; ctx.fill();
+        ctx.globalAlpha = 1; ctx.lineWidth = 1.5; ctx.strokeStyle = b.c; ctx.stroke();
+      }
+    }
+
+    let last = 0;
+    function loop(t) {
+      if (!running) return;
+      const dt = Math.min((t - last) / 1000, 1 / 30); last = t;
+      for (let i = 0; i < SUBSTEPS; i++) step(dt / SUBSTEPS);
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    function startSim() {
+      if (running || reduceMotion) return;
+      running = true; last = performance.now(); requestAnimationFrame(loop);
+    }
+
+    refreshColors();
+    resize();
+    for (let i = 0; i < 14; i++) addBall(30 + Math.random() * (W - 60 || 200), Math.random() * (H * 0.5 || 120));
+
+    if (reduceMotion) {
+      // Sin animación: la escena se deja "asentada" y estática
+      for (let i = 0; i < 240; i++) step(1 / 60);
+      draw();
+    } else {
+      new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) startSim(); else running = false; });
+      }, { threshold: 0.05 }).observe(canvas);
+    }
+
+    new ResizeObserver(resize).observe(canvas);
+
+    function localPos(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    canvas.addEventListener('pointermove', e => { const p = localPos(e); pointer.x = p.x; pointer.y = p.y; pointer.active = true; });
+    canvas.addEventListener('pointerleave', () => { pointer.active = false; });
+    canvas.addEventListener('pointerdown', e => { const p = localPos(e); addBall(p.x, p.y); if (!running) draw(); });
+  </script>
+</body>
+</html>
