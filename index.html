@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tu Nombre | Physics Programmer</title>
-  <meta name="description" content="Portafolio de Tu Nombre, programador de física para videojuegos: demos, proyectos, formación y contacto.">
+  <title>Alejandro Ruíz Rodriguez | Physics Programmer</title>
+  <meta name="description" content="Portafolio de Alejandro Ruíz Rodriguez, programador de física para videojuegos: demos, proyectos, formación y contacto.">
 
   <!-- Aplica el tema guardado (o el del sistema) antes de pintar la página, para evitar parpadeos -->
   <script>
@@ -143,6 +143,13 @@
     .hero .now { color: var(--muted); font-size: .98rem; }
     .hero .now strong { color: var(--text); }
 
+    /* Portada: habilidades (solo informativas) y botones (acciones) bien diferenciados */
+    .hero .chips-label { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 6px 0 10px; }
+    .hero .chip { background: transparent; color: var(--muted); font-size: .82rem; cursor: default; }
+    .hero .chip:hover { border-color: var(--line); transform: none; }
+    .hero .btns { gap: 12px; margin-top: 36px; }
+    .hero .btn { border-radius: 10px; }
+
     .sim {
       position: relative; height: 400px; border-radius: var(--radius); overflow: hidden;
       background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow);
@@ -244,6 +251,10 @@
     .tl-item h3 { font-size: 1.5rem; margin-bottom: 4px; }
     .tl-role { color: var(--muted); font-size: .95rem; margin-bottom: 14px; }
     .tl-role b { color: var(--text); }
+    .tl-group { margin-bottom: 64px; }
+    .tl-group:last-child { margin-bottom: 0; }
+    .tl-group-title { font-size: 1.7rem; margin-bottom: 30px; display: flex; align-items: center; gap: 16px; }
+    .tl-group-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
     .tl-item p { color: var(--muted); margin-bottom: 14px; max-width: 720px; }
     .tl-label { font-size: .74rem !important; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-2) !important; font-weight: 600; margin: 18px 0 8px !important; }
     .tl-titles li { padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .93rem; display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; max-width: 720px; }
@@ -326,14 +337,13 @@
   <!-- ===================== NAVEGACIÓN ===================== -->
   <header>
     <nav class="container">
-      <a href="#intro" class="logo">Tu<span>Nombre</span></a>
+      <a href="#intro" class="logo">Alejandro<span>Ruíz</span></a>
       <div class="nav-right">
         <div class="nav-links" id="navLinks">
           <a href="#hola">Hola</a>
           <a href="#proyectos">Proyectos</a>
           <a href="#formacion">Formación</a>
-          <a href="#comunidad">Comunidad</a>
-          <a href="#demos">Demos</a>
+          <a href="#gamejams">Game jams</a>
           <a href="#contacto">Contacto</a>
           <!-- Sube tu CV al repositorio con el nombre cv.pdf -->
           <a href="cv.pdf" class="nav-cv" target="_blank" rel="noopener">CV</a>
@@ -352,10 +362,16 @@
       <div class="blob b2"></div>
       <div class="container">
         <div>
-          <h1 class="rise">Tu Nombre</h1>
+          <h1 class="rise">Alejandro Ruíz Rodriguez</h1>
           <p class="role-line rise"><span class="mark">Physics Programmer</span></p>
-          <p class="lead rise">Programo física para videojuegos: colisiones, cuerpos rígidos, personajes y sistemas que se sienten bien al jugarlos. Estoy buscando mi primer rol en la industria.</p>
-          <p class="now rise">Actualmente: <strong>Estudiante de [tu carrera] / Buscando mi primer puesto</strong></p>
+          <p class="chips-label rise">Habilidades</p>
+          <div class="chips rise">
+            <span class="chip">Rigidbody</span>
+            <span class="chip">Colliders</span>
+            <span class="chip">Player Controller</span>
+            <span class="chip">C#</span>
+            <span class="chip">Unity</span>
+          </div>
           <div class="btns rise">
             <a href="#proyectos" class="btn btn-primary">Ver proyectos</a>
             <a href="cv.pdf" class="btn btn-ghost" target="_blank" rel="noopener">Ver CV</a>
@@ -377,66 +393,17 @@
       <div class="container">
         <p class="eyebrow reveal">Bienvenido</p>
         <h2 class="section-title reveal">¡Hola!</h2>
-        <p class="section-sub reveal">Soy [tu perfil en una frase: por ejemplo, "un programador curioso al que le fascina hacer que los objetos se muevan de forma creíble"].</p>
+        <p class="section-sub reveal">Un poco sobre quién soy y cómo llegué a los videojuegos.</p>
 
         <div class="block reveal">
           <div class="block-img portrait ph">
-            <!-- <img src="img/foto.jpg" alt="Foto de Tu Nombre"> -->
-            Tu foto
+            <img src="foto.jpg" alt="Foto de Alejandro Ruíz Rodriguez frente a un telescopio del Instituto de Astronomía de la UNAM" loading="lazy" style="object-position: 45% center;">
           </div>
           <div>
-            <h3>Por qué me apasiona la física en juegos</h3>
-            <p>Cuenta qué juego te hizo notar la física (una cuerda, un vehículo, una destrucción, un ragdoll) y qué te motivó a aprender cómo funciona por dentro.</p>
-            <p>Menciona tu formación, qué has construido hasta ahora y qué te gustaría seguir aprendiendo.</p>
-          </div>
-        </div>
-
-        <div class="block reveal">
-          <div class="block-img ph">
-            <!-- <img src="img/bloque2.jpg" alt=""> -->
-            Imagen o GIF
-          </div>
-          <div>
-            <h3>Lo que sé hacer</h3>
-            <p>Esto es lo que manejo hoy. Deja solo lo que realmente puedas defender en una entrevista.</p>
-            <div class="skill-group">
-              <h4>Física y simulación</h4>
-              <div class="chips">
-                <span class="chip">Cuerpos rígidos</span>
-                <span class="chip">Detección de colisiones</span>
-                <span class="chip">Integración numérica</span>
-                <span class="chip">Restricciones</span>
-                <span class="chip">Raycasts y queries</span>
-                <span class="chip">Controladores de personaje</span>
-              </div>
-            </div>
-            <div class="skill-group">
-              <h4>Lenguajes</h4>
-              <div class="chips">
-                <span class="chip">C++</span>
-                <span class="chip">C#</span>
-                <span class="chip">Python</span>
-              </div>
-            </div>
-            <div class="skill-group">
-              <h4>Motores y librerías</h4>
-              <div class="chips">
-                <span class="chip">Unity (PhysX)</span>
-                <span class="chip">Unreal Engine (Chaos)</span>
-                <span class="chip">Godot</span>
-                <span class="chip">Box2D</span>
-                <span class="chip">Bullet</span>
-              </div>
-            </div>
-            <div class="skill-group">
-              <h4>Matemáticas y herramientas</h4>
-              <div class="chips">
-                <span class="chip">Álgebra lineal</span>
-                <span class="chip">Cuaterniones</span>
-                <span class="chip">Git / GitHub</span>
-                <span class="chip">Profiling</span>
-              </div>
-            </div>
+            <h3>Acerca de mí</h3>
+            <p>Soy Alejandro Ruíz Rodriguez, Desarrollador Unity Jr. de la Ciudad de México con formación en Física.</p>
+            <p>Mi interés por entender la programación me llevó del Instituto de Astronomía al desarrollo de videojuegos, donde encontré mi verdadera pasión. Me formé como Desarrollador Unity en Generation México y desde entonces me he enfocado en transformar esa base científica en mecánicas jugables en C#, como sistemas de movimiento y control del jugador.</p>
+            <p>Hoy busco mi primer rol como Desarrollador Unity Jr. en un estudio donde pueda seguir creciendo, aprender de un equipo con experiencia y aportar en el diseño de mecánicas de juego.</p>
           </div>
         </div>
 
@@ -448,7 +415,6 @@
           <div>
             <h3>Lo que busco ahora</h3>
             <ul class="want-list">
-              <li>Puesto junior o prácticas como Physics, Gameplay o Engine Programmer.</li>
               <li>Un equipo donde pueda aprender de ingenieros con experiencia.</li>
               <li>Proyectos donde la física sea parte central de la experiencia.</li>
             </ul>
@@ -632,126 +598,64 @@
       <div class="container">
         <p class="eyebrow reveal">Currículum</p>
         <h2 class="section-title reveal">Formación y experiencia</h2>
-        <p class="section-sub reveal">Un resumen de mi camino. Si estás empezando, aquí cuentan tus estudios, cursos, prácticas y game jams.</p>
+        <p class="section-sub reveal">Un resumen de mi formación académica y mi experiencia profesional.</p>
 
-        <div class="timeline" id="timeline">
-          <div class="tl-fill" id="tlFill"></div>
+        <div class="tl-group">
+          <h3 class="tl-group-title reveal">Educación</h3>
+          <div class="timeline">
+            <div class="tl-fill"></div>
 
-          <div class="tl-item reveal">
-            <span class="tl-dot"></span>
-            <h3>Universidad o escuela</h3>
-            <p class="tl-role"><b>Licenciatura / Ingeniería en ...</b> · 2021 – 2025</p>
-            <p>Menciona materias relevantes (física, álgebra lineal, estructuras de datos, gráficos), tu enfoque y proyectos finales relacionados con videojuegos.</p>
-            <p class="tl-label">Destacados</p>
-            <ul class="tl-list">
-              <li>Proyecto de tesis o terminal relacionado con simulación o juegos.</li>
-              <li>Promedio, becas o reconocimientos, si ayudan.</li>
-            </ul>
-          </div>
+            <div class="tl-item reveal">
+              <span class="tl-dot"></span>
+              <h3>Generation México</h3>
+              <p class="tl-role"><b>Desarrollador Unity Jr.</b> · Septiembre 2026 – Diciembre 2026 · Ciudad de México, México</p>
+              <p>Formación como desarrollador de videojuegos con Unity, enfocada en programar mecánicas jugables en C#, como sistemas de movimiento y control del jugador.</p>
+            </div>
 
-          <div class="tl-item reveal">
-            <span class="tl-dot"></span>
-            <h3>Prácticas, voluntariado o game jams</h3>
-            <p class="tl-role"><b>Tu rol</b> · 2024</p>
-            <p>Cualquier experiencia en equipo cuenta: prácticas, proyectos para clientes, colaboraciones o jams.</p>
-            <p class="tl-label">Títulos</p>
-            <ul class="tl-titles">
-              <li>Nombre del juego o proyecto <span>PC — 2024</span></li>
-            </ul>
-            <p class="tl-label">Responsabilidades</p>
-            <ul class="tl-list">
-              <li>Una responsabilidad concreta con un resultado claro.</li>
-              <li>Cómo trabajaste con artistas, diseñadores u otros programadores.</li>
-            </ul>
-          </div>
-
-          <div class="tl-item reveal">
-            <span class="tl-dot"></span>
-            <h3>Cursos y certificaciones</h3>
-            <p class="tl-role"><b>Plataforma o institución</b> · 2023</p>
-            <p>Cursos de C++, matemáticas para videojuegos, física de juegos u otros que respalden lo que sabes.</p>
+            <div class="tl-item reveal">
+              <span class="tl-dot"></span>
+              <h3>Facultad de Ciencias, UNAM</h3>
+              <p class="tl-role"><b>Licenciatura en Física</b> · Agosto 2017 – En curso · Ciudad de México, México</p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ===================== COMUNIDAD ===================== -->
-    <section id="comunidad">
-      <div class="container">
-        <p class="eyebrow reveal">Más allá del código</p>
-        <h2 class="section-title reveal">Comunidad y publicaciones</h2>
-        <p class="section-sub reveal">Escribir sobre lo que aprendes te distingue mucho cuando empiezas. Un artículo explicando cómo funciona algo que hiciste vale más que una lista de herramientas. Si todavía no tienes nada aquí, borra la sección y vuelve cuando tengas algo.</p>
+        <div class="tl-group">
+          <h3 class="tl-group-title reveal">Experiencia profesional</h3>
+          <div class="timeline">
+            <div class="tl-fill"></div>
 
-        <div class="two-col">
-          <div>
-            <h3 class="reveal">Artículos y charlas</h3>
-            <a href="#" class="row-link reveal" target="_blank" rel="noopener">
-              <small>Tu blog o Medium</small>
-              <b>Título de tu artículo</b>
-              <p>Ejemplo: "Cómo implementé colisiones entre círculos y polígonos paso a paso".</p>
-            </a>
-            <a href="#" class="row-link reveal" target="_blank" rel="noopener">
-              <small>Evento o comunidad</small>
-              <b>Charla o presentación</b>
-              <p>Una línea sobre de qué trató y dónde la diste.</p>
-            </a>
-          </div>
-          <div>
-            <h3 class="reveal">Game jams y reconocimientos</h3>
-            <div class="row-link reveal">
-              <small>Ganador · 2025</small>
-              <b>Nombre del premio o jam</b>
-            </div>
-            <div class="row-link reveal">
-              <small>Participante · 2024</small>
-              <b>Global Game Jam u otra</b>
+            <div class="tl-item reveal">
+              <span class="tl-dot"></span>
+              <h3>Instituto de Astronomía, UNAM</h3>
+              <p class="tl-role"><b>Asistente de investigación</b> · Agosto 2023 – Marzo 2026 · Ciudad de México, México</p>
+              <p class="tl-label">Responsabilidades</p>
+              <ul class="tl-list">
+                <li>Desarrollé scripts en Python que monitoreaban variables y detectaban y corregían desviaciones y datos anómalos, una práctica cercana a la depuración y las pruebas de sistemas en el desarrollo de juegos.</li>
+                <li>Traduje modelos científicos complejos en informes técnicos accesibles, una habilidad útil para documentar mecánicas y comunicar ideas técnicas a equipos de diseño y arte.</li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== DEMOS Y EXPERIMENTOS ===================== -->
-    <section id="demos" class="alt">
+    <!-- ===================== GAME JAMS ===================== -->
+    <section id="gamejams">
       <div class="container">
-        <p class="eyebrow reveal">Laboratorio</p>
-        <h2 class="section-title reveal">Demos y experimentos</h2>
-        <p class="section-sub reveal">Pruebas cortas donde exploré una idea de física. Un GIF de 5 a 10 segundos por demo es suficiente.</p>
+        <p class="eyebrow reveal">Participación</p>
+        <h2 class="section-title reveal">Game jams</h2>
+        <p class="section-sub reveal">Eventos de desarrollo de juegos en los que he participado.</p>
 
-        <div class="grid">
-          <article class="card reveal">
-            <div class="thumb ph"><!-- <img src="img/demo1.gif" alt="Demo de cuerdas"> -->Imagen o GIF</div>
-            <div class="card-body">
-              <span class="kind">Cuerdas y restricciones · Unity</span>
-              <h3>Simulación de cuerdas</h3>
-              <p>Una línea que explique qué se ve y qué técnica usaste (por ejemplo, Verlet).</p>
-              <div class="feature-links"><a href="#" target="_blank" rel="noopener">Ver demo ↗</a><a href="#" target="_blank" rel="noopener">Código ↗</a></div>
-            </div>
-          </article>
-          <article class="card reveal">
-            <div class="thumb ph">Imagen o GIF</div>
-            <div class="card-body">
-              <span class="kind">Ragdoll · Godot</span>
-              <h3>Ragdoll con articulaciones</h3>
-              <p>Explica brevemente el reto y cómo lo resolviste.</p>
-              <div class="feature-links"><a href="#" target="_blank" rel="noopener">Ver demo ↗</a><a href="#" target="_blank" rel="noopener">Código ↗</a></div>
-            </div>
-          </article>
-          <article class="card reveal">
-            <div class="thumb ph">Imagen o GIF</div>
-            <div class="card-body">
-              <span class="kind">Vehículo · Unreal Engine</span>
-              <h3>Vehículo con suspensión</h3>
-              <p>Si usaste un sistema ya existente, aclara qué parte modificaste o programaste tú.</p>
-              <div class="feature-links"><a href="#" target="_blank" rel="noopener">Ver demo ↗</a></div>
-            </div>
-          </article>
+        <div class="row-link reveal" style="max-width: 620px;">
+          <small>Participante · 2024</small>
+          <b>Global Game Jam u otra</b>
         </div>
       </div>
     </section>
 
     <!-- ===================== CONTACTO ===================== -->
-    <section id="contacto">
+    <section id="contacto" class="alt">
       <div class="container">
         <p class="eyebrow reveal">¿Hablamos?</p>
         <h2 class="section-title reveal">Contáctame</h2>
@@ -768,7 +672,7 @@
   </main>
 
   <footer>
-    <div class="container">© <span id="year"></span> Tu Nombre. Todos los derechos reservados.</div>
+    <div class="container">© <span id="year"></span> Alejandro Ruíz Rodriguez. Todos los derechos reservados.</div>
   </footer>
 
   <script>
@@ -815,8 +719,7 @@
 
     /* ---------- Barra de progreso, línea de tiempo y paralaje ---------- */
     const progress = document.getElementById('progress');
-    const tl = document.getElementById('timeline');
-    const tlFill = document.getElementById('tlFill');
+    const timelines = [...document.querySelectorAll('.timeline')];
     const parallax = [...document.querySelectorAll('.parallax')];
 
     function onScroll() {
@@ -825,11 +728,12 @@
       const max = h.scrollHeight - h.clientHeight;
       progress.style.width = (max > 0 ? (h.scrollTop / max) * 100 : 0) + '%';
 
-      if (tl) {
+      timelines.forEach(tl => {
+        const fill = tl.querySelector('.tl-fill');
         const r = tl.getBoundingClientRect();
         const p = Math.min(Math.max((vh * 0.6 - r.top) / r.height, 0), 1);
-        tlFill.style.height = (reduceMotion ? 100 : p * 100) + '%';
-      }
+        fill.style.height = (reduceMotion ? 100 : p * 100) + '%';
+      });
       if (!reduceMotion) {
         parallax.forEach(el => {
           if (!el.isConnected) return;
