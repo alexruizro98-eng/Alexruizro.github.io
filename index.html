@@ -173,6 +173,7 @@
     .block { display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; align-items: center; padding: 44px 0; }
     .block:nth-of-type(even) .block-img { order: 2; }
     .ph { background: linear-gradient(135deg, var(--ph-a), var(--ph-b)); color: var(--muted); display: grid; place-items: center; font-size: .9rem; }
+    .block.single { grid-template-columns: 1fr; }
     .block-img { aspect-ratio: 4 / 3; border-radius: var(--radius); overflow: hidden; }
     .block-img.portrait { aspect-ratio: 4 / 5; max-width: 340px; border-radius: 180px 180px var(--radius) var(--radius); }
     .block-img img { width: 100%; height: 100%; object-fit: cover; }
@@ -343,7 +344,6 @@
           <a href="#hola">Hola</a>
           <a href="#proyectos">Proyectos</a>
           <a href="#formacion">Formación</a>
-          <a href="#gamejams">Game jams</a>
           <a href="#contacto">Contacto</a>
           <!-- Sube tu CV al repositorio con el nombre cv.pdf -->
           <a href="cv.pdf" class="nav-cv" target="_blank" rel="noopener">CV</a>
@@ -404,23 +404,6 @@
             <p>Soy Alejandro Ruíz Rodriguez, Desarrollador Unity Jr. de la Ciudad de México con formación en Física.</p>
             <p>Mi interés por entender la programación me llevó del Instituto de Astronomía al desarrollo de videojuegos, donde encontré mi verdadera pasión. Me formé como Desarrollador Unity en Generation México y desde entonces me he enfocado en transformar esa base científica en mecánicas jugables en C#, como sistemas de movimiento y control del jugador.</p>
             <p>Hoy busco mi primer rol como Desarrollador Unity Jr. en un estudio donde pueda seguir creciendo, aprender de un equipo con experiencia y aportar en el diseño de mecánicas de juego.</p>
-          </div>
-        </div>
-
-        <div class="block reveal">
-          <div class="block-img ph">
-            <!-- <img src="img/bloque3.jpg" alt=""> -->
-            Imagen
-          </div>
-          <div>
-            <h3>Lo que busco ahora</h3>
-            <ul class="want-list">
-              <li>Un equipo donde pueda aprender de ingenieros con experiencia.</li>
-              <li>Proyectos donde la física sea parte central de la experiencia.</li>
-            </ul>
-            <div class="btns">
-              <a href="mailto:tucorreo@ejemplo.com" class="btn btn-primary">Escríbeme</a>
-            </div>
           </div>
         </div>
       </div>
@@ -596,7 +579,6 @@
     <!-- ===================== FORMACIÓN Y EXPERIENCIA ===================== -->
     <section id="formacion" class="alt">
       <div class="container">
-        <p class="eyebrow reveal">Currículum</p>
         <h2 class="section-title reveal">Formación y experiencia</h2>
         <p class="section-sub reveal">Un resumen de mi formación académica y mi experiencia profesional.</p>
 
@@ -640,31 +622,16 @@
       </div>
     </section>
 
-    <!-- ===================== GAME JAMS ===================== -->
-    <section id="gamejams">
-      <div class="container">
-        <p class="eyebrow reveal">Participación</p>
-        <h2 class="section-title reveal">Game jams</h2>
-        <p class="section-sub reveal">Eventos de desarrollo de juegos en los que he participado.</p>
-
-        <div class="row-link reveal" style="max-width: 620px;">
-          <small>Participante · 2024</small>
-          <b>Global Game Jam u otra</b>
-        </div>
-      </div>
-    </section>
-
     <!-- ===================== CONTACTO ===================== -->
-    <section id="contacto" class="alt">
+    <section id="contacto">
       <div class="container">
         <p class="eyebrow reveal">¿Hablamos?</p>
-        <h2 class="section-title reveal">Contáctame</h2>
-        <p class="section-sub reveal">Escríbeme por correo o LinkedIn. Con gusto platico sobre puestos, prácticas o colaboraciones.</p>
+        <h2 class="section-title reveal" style="margin-bottom: 36px;">Contáctame</h2>
         <div class="contact-grid">
-          <a class="contact-card reveal" href="mailto:tucorreo@ejemplo.com"><small>Correo</small><b>tucorreo@ejemplo.com</b></a>
-          <a class="contact-card reveal" href="https://www.linkedin.com/in/tu-usuario" target="_blank" rel="noopener"><small>LinkedIn</small><b>linkedin.com/in/tu-usuario</b></a>
-          <a class="contact-card reveal" href="https://github.com/tu-usuario" target="_blank" rel="noopener"><small>GitHub</small><b>github.com/tu-usuario</b></a>
-          <div class="contact-card reveal"><small>Ubicación</small><b>Ciudad, País</b></div>
+          <a class="contact-card reveal" href="mailto:alexruizro98@gmail.com"><small>Correo</small><b>alexruizro98@gmail.com</b></a>
+          <a class="contact-card reveal" href="https://www.linkedin.com/in/alejandrorgamedev" target="_blank" rel="noopener"><small>LinkedIn</small><b>linkedin.com/in/alejandrorgamedev</b></a>
+          <a class="contact-card reveal" href="https://github.com/alexruizro98-eng" target="_blank" rel="noopener"><small>GitHub</small><b>github.com/alexruizro98-eng</b></a>
+          <div class="contact-card reveal"><small>Ubicación</small><b>CDMX, México</b></div>
         </div>
       </div>
     </section>
