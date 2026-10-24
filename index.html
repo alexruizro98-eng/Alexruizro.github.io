@@ -207,6 +207,7 @@
     .banner-bg .bg-video.ready { opacity: 1; }
     .banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,10,18,.8), rgba(8,10,18,.05) 65%); pointer-events: none; }
     .banner.playing::after { display: none; }
+    .banner.playing { height: auto; aspect-ratio: 16 / 9; background: #000; }
     .banner iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 3; }
     .banner-text { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 28px clamp(20px, 4vw, 40px); }
     .badge { display: inline-block; font-size: .78rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; background: rgba(255,255,255,.18); backdrop-filter: blur(6px); margin-bottom: 12px; }
@@ -406,7 +407,7 @@
 
         <div class="block reveal">
           <div class="block-img portrait ph">
-            <img src="foto.png" alt="Foto de Alejandro Ruíz Rodriguez frente a un telescopio del Instituto de Astronomía de la UNAM" loading="lazy" style="object-position: 45% center;">
+            <img src="foto.jpg" alt="Foto de Alejandro Ruíz Rodriguez frente a un telescopio del Instituto de Astronomía de la UNAM" loading="lazy" style="object-position: 45% center;">
           </div>
           <div>
             <h3>Acerca de mí</h3>
@@ -430,7 +431,7 @@
              <div class="banner-bg parallax"><img src="img/proyecto1.jpg" alt="Portada del proyecto"></div> -->
         <article class="feature reveal">
           <div class="banner">
-            <div class="banner-bg parallax" data-yt-bg="bLSn3OjMHcQ" style="background-image: url('https://i.ytimg.com/vi/bLSn3OjMHcQ/hqdefault.jpg');"></div>
+            <div class="banner-bg parallax" data-yt-bg="bLSn3OjMHcQ" style="background-image: url('https://i.ytimg.com/vi/bLSn3OjMHcQ/maxresdefault.jpg'), url('https://i.ytimg.com/vi/bLSn3OjMHcQ/hqdefault.jpg');"></div>
             <button class="video-btn" data-yt="bLSn3OjMHcQ" aria-label="Reproducir video del proyecto"><span class="play">▶</span>Ver video</button>
             <div class="banner-text">
               <span class="badge">Misión 1 · Unity · C#</span>
@@ -481,7 +482,7 @@
 
         <article class="feature reveal">
           <div class="banner">
-            <div class="banner-bg parallax" data-yt-bg="_FHJTFFv3aQ" style="background-image: url('https://i.ytimg.com/vi/_FHJTFFv3aQ/hqdefault.jpg');"></div>
+            <div class="banner-bg parallax" data-yt-bg="_FHJTFFv3aQ" style="background-image: url('https://i.ytimg.com/vi/_FHJTFFv3aQ/maxresdefault.jpg'), url('https://i.ytimg.com/vi/_FHJTFFv3aQ/hqdefault.jpg');"></div>
             <button class="video-btn" data-yt="_FHJTFFv3aQ" aria-label="Reproducir video del proyecto"><span class="play">▶</span>Ver video</button>
             <div class="banner-text">
               <span class="badge">Unidad 2 · Unity · C#</span>
@@ -532,7 +533,7 @@
 
         <article class="feature reveal">
           <div class="banner">
-            <div class="banner-bg parallax" data-yt-bg="8cTk07EhezU" style="background-image: url('https://i.ytimg.com/vi/8cTk07EhezU/hqdefault.jpg');"></div>
+            <div class="banner-bg parallax" data-yt-bg="8cTk07EhezU" style="background-image: url('https://i.ytimg.com/vi/8cTk07EhezU/maxresdefault.jpg'), url('https://i.ytimg.com/vi/8cTk07EhezU/hqdefault.jpg');"></div>
             <button class="video-btn" data-yt="8cTk07EhezU" aria-label="Reproducir video del proyecto"><span class="play">▶</span>Ver video</button>
             <div class="banner-text">
               <span class="badge">Unidad 3 · Unity · C#</span>
