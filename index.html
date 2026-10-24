@@ -196,6 +196,15 @@
     .feature:nth-of-type(2n) .banner-bg { background: linear-gradient(135deg, #12423c, #2aa58f); }
     .feature:nth-of-type(3n) .banner-bg { background: linear-gradient(135deg, #3a1f55, #b34a8a); }
     .banner-bg img { width: 100%; height: 100%; object-fit: cover; }
+    /* Video de fondo (sin sonido, en bucle) detrás del texto de la portada */
+    .banner { container-type: size; }
+    .banner-bg[data-yt-bg] { background-size: cover; background-position: center; }
+    .banner-bg .bg-video {
+      position: absolute; top: 50%; left: 50%; border: 0; pointer-events: none;
+      width: max(100cqw, 213.34cqh); height: max(120cqh, 56.25cqw);
+      transform: translate(-50%, -50%); opacity: 0; transition: opacity 1s .8s;
+    }
+    .banner-bg .bg-video.ready { opacity: 1; }
     .banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,10,18,.8), rgba(8,10,18,.05) 65%); pointer-events: none; }
     .banner.playing::after { display: none; }
     .banner iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; z-index: 3; }
@@ -397,7 +406,7 @@
 
         <div class="block reveal">
           <div class="block-img portrait ph">
-            <img src="foto.png" alt="Foto de Alejandro Ruíz Rodriguez frente a un telescopio del Instituto de Astronomía de la UNAM" loading="lazy" style="object-position: 45% center;">
+            <img src="foto.jpg" alt="Foto de Alejandro Ruíz Rodriguez frente a un telescopio del Instituto de Astronomía de la UNAM" loading="lazy" style="object-position: 45% center;">
           </div>
           <div>
             <h3>Acerca de mí</h3>
@@ -421,7 +430,8 @@
              <div class="banner-bg parallax"><img src="img/proyecto1.jpg" alt="Portada del proyecto"></div> -->
         <article class="feature reveal">
           <div class="banner">
-            <div class="banner-bg parallax"></div>
+            <div class="banner-bg parallax" data-yt-bg="bLSn3OjMHcQ" style="background-image: url('https://i.ytimg.com/vi/bLSn3OjMHcQ/hqdefault.jpg');"></div>
+            <button class="video-btn" data-yt="bLSn3OjMHcQ" aria-label="Reproducir video del proyecto"><span class="play">▶</span>Ver video</button>
             <div class="banner-text">
               <span class="badge">Misión 1 · Unity · C#</span>
               <h3>Create with Code 1</h3>
@@ -471,7 +481,8 @@
 
         <article class="feature reveal">
           <div class="banner">
-            <div class="banner-bg parallax"></div>
+            <div class="banner-bg parallax" data-yt-bg="_FHJTFFv3aQ" style="background-image: url('https://i.ytimg.com/vi/_FHJTFFv3aQ/hqdefault.jpg');"></div>
+            <button class="video-btn" data-yt="_FHJTFFv3aQ" aria-label="Reproducir video del proyecto"><span class="play">▶</span>Ver video</button>
             <div class="banner-text">
               <span class="badge">Unidad 2 · Unity · C#</span>
               <h3>Basic Gameplay</h3>
@@ -521,7 +532,8 @@
 
         <article class="feature reveal">
           <div class="banner">
-            <div class="banner-bg parallax"></div>
+            <div class="banner-bg parallax" data-yt-bg="8cTk07EhezU" style="background-image: url('https://i.ytimg.com/vi/8cTk07EhezU/hqdefault.jpg');"></div>
+            <button class="video-btn" data-yt="8cTk07EhezU" aria-label="Reproducir video del proyecto"><span class="play">▶</span>Ver video</button>
             <div class="banner-text">
               <span class="badge">Unidad 3 · Unity · C#</span>
               <h3>Sound and Effects</h3>
@@ -711,6 +723,30 @@
     }, { passive: true });
     window.addEventListener('resize', onScroll);
     onScroll();
+
+    /* ---------- Video de fondo en las portadas (mudo, en bucle) ---------- */
+    if (!reduceMotion) {
+      const bgObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target;
+          bgObserver.unobserve(el);
+          const id = el.dataset.ytBg;
+          const f = document.createElement('iframe');
+          f.className = 'bg-video';
+          f.src = 'https://www.youtube-nocookie.com/embed/' + id +
+            '?autoplay=1&mute=1&controls=0&loop=1&playlist=' + id +
+            '&playsinline=1&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3';
+          f.allow = 'autoplay; encrypted-media';
+          f.title = 'Video de fondo';
+          f.setAttribute('aria-hidden', 'true');
+          f.tabIndex = -1;
+          f.addEventListener('load', () => f.classList.add('ready'));
+          el.appendChild(f);
+        });
+      }, { rootMargin: '200px' });
+      document.querySelectorAll('[data-yt-bg]').forEach(el => bgObserver.observe(el));
+    }
 
     /* ---------- Videos de YouTube (se cargan solo al hacer clic) ---------- */
     document.querySelectorAll('.video-btn').forEach(btn => {
