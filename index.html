@@ -304,6 +304,41 @@
 
     footer { border-top: 1px solid var(--line); padding: 28px 0; text-align: center; color: var(--muted); font-size: .88rem; }
 
+    /* ---------- GAME JAMS (SLIDER) ---------- */
+    .slider { position: relative; }
+    .slider-track {
+      display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+      gap: 24px; scrollbar-width: none; border-radius: var(--radius); outline-offset: 4px;
+    }
+    .slider-track::-webkit-scrollbar { display: none; }
+    .jam-slide {
+      flex: 0 0 100%; scroll-snap-align: start; border-radius: var(--radius); overflow: hidden;
+      background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow);
+    }
+    .jam-media {
+      position: relative; min-height: 300px; aspect-ratio: 16 / 9; color: #fff; display: flex; align-items: flex-end;
+      padding: 28px clamp(20px, 4vw, 40px); background: linear-gradient(135deg, #1b2540, #4b3bb0);
+      background-size: cover; background-position: center; overflow: hidden;
+    }
+    .jam-slide:nth-child(2) .jam-media { background-image: linear-gradient(135deg, #12423c, #2aa58f); }
+    .jam-head { margin-bottom: 18px; }
+    .jam-tag { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; }
+    .jam-head h3 { font-size: clamp(1.6rem, 3.2vw, 2.3rem); margin-top: 6px; letter-spacing: -.01em; }
+    .jam-info { padding: 22px clamp(20px, 4vw, 40px) 26px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; }
+    .jam-info small { font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-2); font-weight: 600; }
+    .jam-info b { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; }
+    .jam-link { margin-left: auto; font-weight: 600; font-size: .92rem; color: var(--accent); transition: color .2s; }
+    .jam-link:hover { color: var(--accent-2); }
+    .slider-controls { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 22px; }
+    .slider-btn {
+      width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--outline); background: none; color: var(--text);
+      font-size: 1.1rem; cursor: pointer; display: grid; place-items: center; transition: background .2s, color .2s, transform .2s;
+    }
+    .slider-btn:hover { background: var(--text); color: var(--bg); transform: scale(1.06); }
+    .dots { display: flex; gap: 10px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; border: 0; padding: 0; cursor: pointer; background: var(--line); transition: background .2s, transform .2s; }
+    .dot.active { background: var(--accent-2); transform: scale(1.25); }
+
     /* ---------- APARICIÓN AL HACER SCROLL ---------- */
     .reveal { opacity: 0; transform: translateY(34px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
     .reveal.visible { opacity: 1; transform: none; }
@@ -326,6 +361,7 @@
       .block { grid-template-columns: 1fr; gap: 26px; padding: 30px 0; }
       .block:nth-of-type(even) .block-img { order: 0; }
       .feature-top { grid-template-columns: 1fr; }
+      .jam-media { aspect-ratio: auto; min-height: 240px; }
       .two-col { grid-template-columns: 1fr; }
       .menu-btn { display: block; }
       .nav-right { display: flex; align-items: center; gap: 10px; }
@@ -353,6 +389,7 @@
         <div class="nav-links" id="navLinks">
           <a href="#hola">Hola</a>
           <a href="#proyectos">Proyectos</a>
+          <a href="#gamejams">Game jams</a>
           <a href="#formacion">Formación</a>
           <a href="#contacto">Contacto</a>
           <!-- Sube tu CV al repositorio con el nombre cv.pdf -->
@@ -407,7 +444,7 @@
 
         <div class="block reveal">
           <div class="block-img portrait ph">
-            <img src="foto.png" alt="Foto de Alejandro Ruíz Rodriguez frente a un telescopio del Instituto de Astronomía de la UNAM" loading="lazy" style="object-position: 45% center;">
+            <img src="foto.jpg" alt="Foto de Alejandro Ruíz Rodriguez frente a un telescopio del Instituto de Astronomía de la UNAM" loading="lazy" style="object-position: 45% center;">
           </div>
           <div>
             <h3>Acerca de mí</h3>
@@ -584,8 +621,101 @@
       </div>
     </section>
 
+    <!-- ===================== GAME JAMS ===================== -->
+    <section id="gamejams" class="alt">
+      <div class="container">
+        <p class="eyebrow reveal">Participación</p>
+        <h2 class="section-title reveal">Game jams</h2>
+        <p class="section-sub reveal">Juegos que desarrollé en equipo durante game jams.</p>
+
+        <div class="slider reveal" id="jamSlider" role="region" aria-roledescription="carrusel" aria-label="Juegos de game jam">
+          <div class="slider-track" id="jamTrack" tabindex="0">
+
+            <!-- Las imágenes están en la carpeta img/ (better-in-stereo.jpg y loopie-jumper.jpg).
+                 Si falta alguna, se muestra el fondo de color. -->
+            <article class="jam-slide" aria-roledescription="diapositiva" aria-label="1 de 2">
+              <div class="jam-media" style="background-image: url('img/better-in-stereo.jpg'), linear-gradient(135deg, #1b2540, #4b3bb0); background-position: center top;"></div>
+              <div class="feature-body">
+                <div class="jam-head">
+                  <span class="jam-tag">Game jam · 48 horas</span>
+                  <h3>Better in Stereo</h3>
+                </div>
+                <div class="feature-top">
+                  <div>
+                    <p class="desc">Juego desarrollado en equipo durante una game jam de 48 horas, en el que me encargué de la interfaz y la experiencia de usuario.</p>
+                  </div>
+                  <dl class="meta">
+                    <dt>Formato</dt><dd>Game jam de 48 horas</dd>
+                    <dt>Mi rol</dt><dd>UI/UX Developer</dd>
+                    <dt>Publicado en</dt><dd>itch.io</dd>
+                  </dl>
+                </div>
+                <details>
+                  <summary>Ver lo que hice</summary>
+                  <div class="detail-grid">
+                    <div>
+                      <h4>Mi contribución</h4>
+                      <ul>
+                        <li>Diseño e implementación de la interfaz de usuario (UI) del juego.</li>
+                        <li>Experiencia de usuario (UX) pensada para el poco tiempo de una game jam de 48 horas.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </details>
+                <div class="feature-links">
+                  <a href="https://kuroenez.itch.io/better-in-stereo" target="_blank" rel="noopener">Jugar en itch.io ↗</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="jam-slide" aria-roledescription="diapositiva" aria-label="2 de 2">
+              <div class="jam-media" style="background-image: url('img/loopie-jumper.jpg'), linear-gradient(135deg, #12423c, #2aa58f); background-position: center 22%;"></div>
+              <div class="feature-body">
+                <div class="jam-head">
+                  <span class="jam-tag">Game jam · 48 horas</span>
+                  <h3>Loopie Jumper</h3>
+                </div>
+                <div class="feature-top">
+                  <div>
+                    <p class="desc">Juego desarrollado en equipo durante una game jam de 48 horas, en el que programé los escenarios medieval y contemporáneo, implementando las mecánicas de recolectar y arrastrar fantasmas, y de recolectar y depositar ítems.</p>
+                  </div>
+                  <dl class="meta">
+                    <dt>Formato</dt><dd>Game jam de 48 horas</dd>
+                    <dt>Mi rol</dt><dd>Programador de escenarios medieval y contemporáneo</dd>
+                    <dt>Publicado en</dt><dd>itch.io</dd>
+                  </dl>
+                </div>
+                <details>
+                  <summary>Ver lo que hice</summary>
+                  <div class="detail-grid">
+                    <div>
+                      <h4>Mi contribución</h4>
+                      <ul>
+                        <li>Escenario medieval: implementé la mecánica de recolectar y arrastrar fantasmas.</li>
+                        <li>Escenario contemporáneo: implementé la mecánica de recolectar y depositar ítems.</li>
+                      </ul>
+                    </div>
+                  </div>
+                </details>
+                <div class="feature-links">
+                  <a href="https://thevacuumgentleman.itch.io/loopie-jumper" target="_blank" rel="noopener">Jugar en itch.io ↗</a>
+                </div>
+              </div>
+            </article>
+
+          </div>
+
+          <div class="slider-controls">
+            <button class="slider-btn" id="jamPrev" aria-label="Juego anterior">←</button>
+            <div class="dots" id="jamDots"></div>
+            <button class="slider-btn" id="jamNext" aria-label="Juego siguiente">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== FORMACIÓN Y EXPERIENCIA ===================== -->
-    <section id="formacion" class="alt">
+    <section id="formacion">
       <div class="container">
         <h2 class="section-title reveal">Formación y experiencia</h2>
         <p class="section-sub reveal">Un resumen de mi formación académica y mi experiencia profesional.</p>
@@ -631,7 +761,7 @@
     </section>
 
     <!-- ===================== CONTACTO ===================== -->
-    <section id="contacto">
+    <section id="contacto" class="alt">
       <div class="container">
         <p class="eyebrow reveal">¿Hablamos?</p>
         <h2 class="section-title reveal" style="margin-bottom: 36px;">Contáctame</h2>
@@ -724,6 +854,45 @@
     }, { passive: true });
     window.addEventListener('resize', onScroll);
     onScroll();
+
+    /* ---------- Slider de game jams ---------- */
+    (function () {
+      const track = document.getElementById('jamTrack');
+      if (!track) return;
+      const slides = [...track.children];
+      const dotsBox = document.getElementById('jamDots');
+      const prev = document.getElementById('jamPrev');
+      const next = document.getElementById('jamNext');
+      const behavior = reduceMotion ? 'auto' : 'smooth';
+      let current = 0;
+
+      slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', 'Ir al juego ' + (i + 1));
+        d.addEventListener('click', () => go(i));
+        dotsBox.appendChild(d);
+      });
+      const dots = [...dotsBox.children];
+
+      function go(i, instant) {
+        current = (i + slides.length) % slides.length;
+        track.scrollTo({ left: slides[current].offsetLeft - track.offsetLeft, behavior: instant ? 'auto' : behavior });
+      }
+      function sync() {
+        const i = Math.round(track.scrollLeft / (slides[0].offsetWidth + 24));
+        current = Math.min(Math.max(i, 0), slides.length - 1);
+        dots.forEach((d, k) => d.classList.toggle('active', k === current));
+      }
+      prev.addEventListener('click', () => go(current - 1));
+      next.addEventListener('click', () => go(current + 1));
+      track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+      track.addEventListener('keydown', e => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1); }
+      });
+      window.addEventListener('resize', () => go(current, true));
+    })();
 
     /* ---------- Video de fondo en las portadas (mudo, en bucle) ---------- */
     if (!reduceMotion) {
